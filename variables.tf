@@ -4,6 +4,42 @@ variable "name" {
   description = "Name  (e.g. `app` or `cluster`)."
 }
 
+variable "description" {
+  type        = string
+  default     = ""
+  description = "The description of the REST API "
+}
+
+variable "binary_media_types" {
+  type        = list
+  default     = ["UTF-8-encoded"]
+  description = "The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads."
+}
+
+variable "minimum_compression_size" {
+  type        = number
+  default     = -1
+  description = "Minimum response size to compress for the REST API. Integer between -1 and 10485760 (10MB). Setting a value greater than -1 will enable compression, -1 disables compression (default)."
+}
+
+variable "api_key_source" {
+  type        = string
+  default     = "HEADER"
+  description = "The source of the API key for requests. Valid values are HEADER (default) and AUTHORIZER."
+}
+
+variable "types" {
+  type        = list
+  default     = ["EDGE"]
+  description = "Whether to create rest api."
+}
+
+variable "path_parts" {
+  type        = list
+  default     = []
+  description = "The last path segment of this API resource."
+}
+
 variable "application" {
   type        = string
   default     = ""
@@ -50,42 +86,6 @@ variable "enabled" {
   type        = bool
   default     = false
   description = "Whether to create rest api."
-}
-
-variable "description" {
-  type        = string
-  default     = ""
-  description = "The description of the REST API "
-}
-
-variable "binary_media_types" {
-  type        = list
-  default     = ["UTF-8-encoded"]
-  description = "The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads."
-}
-
-variable "minimum_compression_size" {
-  type        = number
-  default     = -1
-  description = "Minimum response size to compress for the REST API. Integer between -1 and 10485760 (10MB). Setting a value greater than -1 will enable compression, -1 disables compression (default)."
-}
-
-variable "api_key_source" {
-  type        = string
-  default     = "HEADER"
-  description = "The source of the API key for requests. Valid values are HEADER (default) and AUTHORIZER."
-}
-
-variable "types" {
-  type        = list
-  default     = ["EDGE"]
-  description = "Whether to create rest api."
-}
-
-variable "path_parts" {
-  type        = list
-  default     = []
-  description = "The last path segment of this API resource."
 }
 
 variable "stage_enabled" {

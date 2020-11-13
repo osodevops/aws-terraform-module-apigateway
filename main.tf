@@ -1,7 +1,7 @@
 resource "aws_api_gateway_rest_api" "default" {
   count = var.enabled ? 1 : 0
 
-  name                     = module.labels.id
+  name                     = var.name
   description              = var.description
   binary_media_types       = var.binary_media_types
   minimum_compression_size = var.minimum_compression_size
