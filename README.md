@@ -27,36 +27,30 @@ Domain, network load balancer.
 ## Message flow
     End user
         |
-    Cloudfront <- Custom domain
+    Cloudfront <- Custom domain                _DNS_ENDPOINT_ *https://test.detected.app* 
         |
-    Api Gateway <-> AWS IAM
+    Api Gateway <-> AWS IAM                   _API_GATEWAY_ *https://2795dll430.execute-api.eu-west-2.amazonaws.com/dev*
         |
-    VPC link -> Cluster internal network load balancer
+    VPC link -> Cluster internal network load balancer        ace3bfcc9f7c740b1a234f59728a81c4-8762724ac7823621.elb.eu-west-2.amazonaws.com
                                |
                               EKS
                                |
                               POD
     
-    _DNS_ENDPOINT_ *https://test.detected.app* => _API_GATEWAY_ *https://2795dll430.execute-api.eu-west-2.amazonaws.com/dev* 
-    _NETWORK_LOAD_BALANCER_ **     <= API Gateway passes the message to NLB          <= IAM returns the answer
-    ace3bfcc9f7c740b1a234f59728a81c4-8762724ac7823621.elb.eu-west-2.amazonaws.com
-    api-9-LoadB-RCE24E8FTK2A-e40102e887d0e5ae.elb.eu-west-2.amazonaws.com #
-
 ### Defining a REST API
 #### First level - REST API properties
 1. HTTP: GET/POST/DELETE
-2. FULLPATH: path,pathPart
+2. FULLPATH: PATH,PATHPART
 3. METHOD REQUEST/RESPONSE
--path,headers,bodymodel,query
+4. PARAMETERS: path,headers,bodymodel,query
 #### Second level - Authorization
-4. AUTHORIZATION (IAM/LAMBDA)
+5. AUTHORIZATION (IAM/LAMBDA)
 #### Third level - Back-end integration
-5. MAPPING TEMPLATE
-6. Content Handling, choose Passthrough
-7. INTEGRATION REQUEST/RESPONSE
+6. MAPPING TEMPLATE
+7. CONTENT HANDLING (e.g. Passthrough)
+8. INTEGRATION REQUEST/RESPONSE
 #### 4th level - Deployments
----
-8. STAGES AND DEPLOYMENTS (includes environments)
+9. STAGES AND DEPLOYMENTS (includes environments)
 
 REST_API.drawio
 ### Description
