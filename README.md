@@ -16,9 +16,19 @@ Table of Contents
 
 ## Todo
 
-TF code
-In practice
-Virtual Hosts in Nginx
+    *TFcode*
+    1. targetgroup, user/IAM, SecurityGroupIngress0, custom domain, VPC link with LB connection
+    2. multiple methods methodresponse/integrationresponse
+
+    *Build and test*
+    
+    *Virtual Hosts in Nginx*
+
+    *Open api Swagger*
+
+    *Tests*
+
+
 ## Apigateway
 
 This repository contains the Terraform code for the Api Gateway, VPC link, Custom
@@ -29,13 +39,13 @@ Domain, network load balancer.
         |
     Cloudfront <- Custom domain                _DNS_ENDPOINT_ *https://test.detected.app* 
         |
-    Api Gateway <-> AWS IAM                   _API_GATEWAY_ *https://2795dll430.execute-api.eu-west-2.amazonaws.com/dev*
+    Api Gateway <-> AWS IAM                    _API_GATEWAY_ *https://2795dll430.execute-api.eu-west-2.amazonaws.com/dev*
         |
-    VPC link -> Cluster internal network load balancer        ace3bfcc9f7c740b1a234f59728a81c4-8762724ac7823621.elb.eu-west-2.amazonaws.com
-                               |
-                              EKS
-                               |
-                              POD
+    VPC link -> Cluster internal Network LB    _NLB_ ace3bfcc9f7c740b1a234f59728a81c4-8762724ac7823621.elb.eu-west-2.amazonaws.com
+                          |
+                         EKS
+                          |
+                         POD
     
 ### Defining a REST API
 #### First level - REST API properties
