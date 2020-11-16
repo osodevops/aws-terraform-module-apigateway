@@ -28,6 +28,10 @@ Table of Contents
 
     *Tests*
 
+    *API keys/usage plans*
+    1. the monitoring app handles the authentication
+
+
 ### links
 
 Terraform code to build API Gateway, VPC link, network load balancer (private) 
