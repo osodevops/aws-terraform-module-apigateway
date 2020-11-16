@@ -11,37 +11,49 @@ VPCLink
 
 LoadBalancer
 
---- within the apigateway
-RestAPI0, Type:RestApi
 
-  Resourceapi0, Type:Resource => Methodapi0, Type::Method
+    RestAPI0, Type:RestApi
 
-    Resourceapibook0, Type:Resource => Methodapibook0, Type:Method 
+        Resourceapi0, Type:Resource => Methodapi0, Type::Method
+    
+          Resourceapibook0, Type:Resource => Methodapibook0, Type:Method 
+    
+            Resourceapibookproxy0:, Type:Resource => Methodapibookproxy0, Type:Method
+    
+          Resourceapiauthor0, Type: ApiGateway::Resource => Methodapiauthor0, Type:Method
+    
+            Resourceapiauthorproxy0:, Type:Resource => Methodapiauthorproxy0, Type:Method
 
-      Resourceapibookproxy0:, Type:Resource => Methodapibookproxy0, Type:Method
-
-    Resourceapiauthor0, Type: ApiGateway::Resource => Methodapiauthor0, Type:Method
-
-      Resourceapiauthorproxy0:, Type:Resource => Methodapiauthorproxy0, Type:Method
-
-Api Gateway pointing to a load balancer having internal domain name.
-Create Custom Domainname in the API Gateway Console - because we are using Virtual Hosts in Nginx based on the incoming url we will have to make the API available on that URL.
-at the same time configure the certificate
-when we select edge optimized cloudfront is automatically included - then we need to create records in route53 which point to this cloudfront distribution
+Api Gateway poins to a load balancer having internal domain name.
+Create Custom Domainname in the API Gateway Console.
+Because we are using Virtual Hosts in Nginx based on the incoming url we will have to make the API available on that URL.
+at the same time configure the certificate when we select edge optimized cloudfront is automatically included - then we need to create records in route53 which point to this cloudfront distribution
 
 
   Apigateway (service with name reference api-95d8427d)
 Deployment0	7ahgto	AWS:Deployment
-Listener	arn:aws:elasticloadbalancing:eu-west-2:670824338614:listener/net/api-9-LoadB-RCE24E8FTK2A/e40102e887d0e5ae/9346b241d4a5f4a0	AWS::ElasticLoadBalancingV2::Listener
-  LoadBalancer	arn:aws:elasticloadbalancing:eu-west-2:670824338614:loadbalancer/net/api-9-LoadB-RCE24E8FTK2A/e40102e887d0e5ae	AWS::ElasticLoadBalancingV2::LoadBalancer
-  Resourceapi0	1a8od8	AWS:Resource	CREATE_COMPLETE	-
-  Resourceapiauthor0	8dqylq	AWS:Resource	CREATE_COMPLETE	-
-  Resourceapiauthorproxy0	rzp65v	AWS:Resource	CREATE_COMPLETE	-
-  Resourceapibook0	yg6a1l	AWS:Resource	CREATE_COMPLETE	-
-  Resourceapibookproxy0	tnvadk	AWS:Resource	CREATE_COMPLETE	-
-  RestAPI0	2795dll430	AWS:RestApi	CREATE_COMPLETE	-
-SecurityGroupIngress0	SecurityGroupIngress0	AWS::EC2::SecurityGroupIngress	CREATE_COMPLETE	-
-TargetGroup	arn:aws:elasticloadbalancing:eu-west-2:670824338614:targetgroup/api-9-Targe-DWOAGRSGSRV/ec3915b182f4fabe	AWS::ElasticLoadBalancingV2::TargetGroup	CREATE_COMPLETE	-
+Listener elasticloadbalancing
+AWS::ElasticLoadBalancingV2::Listener
+
+  LoadBalancer	arn:aws:elasticloadbalancing:eu-west-2:670824338614:loadbalancer/net/api-9-LoadB-RCE24E8FTK2A/e40102e887d0e5ae	
+  AWS::ElasticLoadBalancingV2::LoadBalancer
+
+  Resourceapi0	1a8od8	AWS:Resource
+  
+  Resourceapiauthor0	8dqylq	AWS:Resource
+  
+  Resourceapiauthorproxy0	rzp65v	AWS:Resource
+  
+  Resourceapibook0	yg6a1l	AWS:Resource
+  
+  Resourceapibookproxy0	tnvadk	AWS:Resource
+  
+  RestAPI0	2795dll430	AWS:RestApi
+  
+SecurityGroupIngress0	SecurityGroupIngress0	AWS::EC2::SecurityGroupIngress
+
+TargetGroup	arn:aws:elasticloadbalancing
+
 VPCLink	vawurb	AWS:VpcLink
 
 ### outputs
