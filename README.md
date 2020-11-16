@@ -2,18 +2,27 @@
 
 This repository contains the "source" code for the Api Gateway, VPC link, Custom
 Domain, network load balancer
----
+
 Custom Domain
+
 Apigateway
+
 VPCLink
+
 LoadBalancer
+
 --- within the apigateway
-RestAPI0, Type::ApiGateway::RestApi
-  Resourceapi0, Type: AWS::ApiGateway::Resource => Methodapi0, Type: AWS::ApiGateway::Method
-    Resourceapibook0, Type::ApiGateway::Resource => Methodapibook0, Type::ApiGateway::Method 
-      Resourceapibookproxy0:, Type::ApiGateway::Resource => Methodapibookproxy0, Type::ApiGateway::Method
-    Resourceapiauthor0, Type: ApiGateway::Resource => Methodapiauthor0, Type::ApiGateway::Method
-      Resourceapiauthorproxy0:, Type::ApiGateway::Resource => Methodapiauthorproxy0, Type::ApiGateway::Method
+RestAPI0, Type:RestApi
+
+  Resourceapi0, Type:Resource => Methodapi0, Type::Method
+
+    Resourceapibook0, Type:Resource => Methodapibook0, Type:Method 
+
+      Resourceapibookproxy0:, Type:Resource => Methodapibookproxy0, Type:Method
+
+    Resourceapiauthor0, Type: ApiGateway::Resource => Methodapiauthor0, Type:Method
+
+      Resourceapiauthorproxy0:, Type:Resource => Methodapiauthorproxy0, Type:Method
 
 Api Gateway pointing to a load balancer having internal domain name.
 Create Custom Domainname in the API Gateway Console - because we are using Virtual Hosts in Nginx based on the incoming url we will have to make the API available on that URL.
@@ -22,18 +31,18 @@ when we select edge optimized cloudfront is automatically included - then we nee
 
 
   Apigateway (service with name reference api-95d8427d)
-Deployment0	7ahgto	AWS::ApiGateway::Deployment
+Deployment0	7ahgto	AWS:Deployment
 Listener	arn:aws:elasticloadbalancing:eu-west-2:670824338614:listener/net/api-9-LoadB-RCE24E8FTK2A/e40102e887d0e5ae/9346b241d4a5f4a0	AWS::ElasticLoadBalancingV2::Listener
   LoadBalancer	arn:aws:elasticloadbalancing:eu-west-2:670824338614:loadbalancer/net/api-9-LoadB-RCE24E8FTK2A/e40102e887d0e5ae	AWS::ElasticLoadBalancingV2::LoadBalancer
-  Resourceapi0	1a8od8	AWS::ApiGateway::Resource	CREATE_COMPLETE	-
-  Resourceapiauthor0	8dqylq	AWS::ApiGateway::Resource	CREATE_COMPLETE	-
-  Resourceapiauthorproxy0	rzp65v	AWS::ApiGateway::Resource	CREATE_COMPLETE	-
-  Resourceapibook0	yg6a1l	AWS::ApiGateway::Resource	CREATE_COMPLETE	-
-  Resourceapibookproxy0	tnvadk	AWS::ApiGateway::Resource	CREATE_COMPLETE	-
-  RestAPI0	2795dll430	AWS::ApiGateway::RestApi	CREATE_COMPLETE	-
+  Resourceapi0	1a8od8	AWS:Resource	CREATE_COMPLETE	-
+  Resourceapiauthor0	8dqylq	AWS:Resource	CREATE_COMPLETE	-
+  Resourceapiauthorproxy0	rzp65v	AWS:Resource	CREATE_COMPLETE	-
+  Resourceapibook0	yg6a1l	AWS:Resource	CREATE_COMPLETE	-
+  Resourceapibookproxy0	tnvadk	AWS:Resource	CREATE_COMPLETE	-
+  RestAPI0	2795dll430	AWS:RestApi	CREATE_COMPLETE	-
 SecurityGroupIngress0	SecurityGroupIngress0	AWS::EC2::SecurityGroupIngress	CREATE_COMPLETE	-
 TargetGroup	arn:aws:elasticloadbalancing:eu-west-2:670824338614:targetgroup/api-9-Targe-DWOAGRSGSRV/ec3915b182f4fabe	AWS::ElasticLoadBalancingV2::TargetGroup	CREATE_COMPLETE	-
-VPCLink	vawurb	AWS::ApiGateway::VpcLink
+VPCLink	vawurb	AWS:VpcLink
 
 ### outputs
 APIGWEndpointType	EDGE
@@ -89,7 +98,7 @@ Resources:
         MethodSettings:
         - {}
       StageName: dev
-    Type: AWS::ApiGateway::Deployment
+    Type: AWS:Deployment
   LambdaInvokeRole:
     Properties:
       AssumeRolePolicyDocument:
@@ -166,7 +175,7 @@ Resources:
         Ref: Resourceapi0
       RestApiId:
         Ref: RestAPI0
-    Type: AWS::ApiGateway::Method
+    Type: AWS:Method
   Methodapiauthor0:
     DependsOn:
     - LoadBalancer
@@ -198,7 +207,7 @@ Resources:
         Ref: Resourceapiauthor0
       RestApiId:
         Ref: RestAPI0
-    Type: AWS::ApiGateway::Method
+    Type: AWS:Method
   Methodapiauthorproxy0:
     DependsOn:
     - LoadBalancer
@@ -230,7 +239,7 @@ Resources:
         Ref: Resourceapiauthorproxy0
       RestApiId:
         Ref: RestAPI0
-    Type: AWS::ApiGateway::Method
+    Type: AWS:Method
   Methodapibook0:
     DependsOn:
     - LoadBalancer
@@ -262,7 +271,7 @@ Resources:
         Ref: Resourceapibook0
       RestApiId:
         Ref: RestAPI0
-    Type: AWS::ApiGateway::Method
+    Type: AWS:Method
   Methodapibookproxy0:
     DependsOn:
     - LoadBalancer
@@ -294,7 +303,7 @@ Resources:
         Ref: Resourceapibookproxy0
       RestApiId:
         Ref: RestAPI0
-    Type: AWS::ApiGateway::Method
+    Type: AWS:Method
   Resourceapi0:
     Properties:
       ParentId:
@@ -304,7 +313,7 @@ Resources:
       PathPart: api
       RestApiId:
         Ref: RestAPI0
-    Type: AWS::ApiGateway::Resource
+    Type: AWS:Resource
   Resourceapiauthor0:
     Properties:
       ParentId:
@@ -312,7 +321,7 @@ Resources:
       PathPart: author
       RestApiId:
         Ref: RestAPI0
-    Type: AWS::ApiGateway::Resource
+    Type: AWS:Resource
   Resourceapiauthorproxy0:
     Properties:
       ParentId:
@@ -320,7 +329,7 @@ Resources:
       PathPart: '{proxy+}'
       RestApiId:
         Ref: RestAPI0
-    Type: AWS::ApiGateway::Resource
+    Type: AWS:Resource
   Resourceapibook0:
     Properties:
       ParentId:
@@ -328,7 +337,7 @@ Resources:
       PathPart: book
       RestApiId:
         Ref: RestAPI0
-    Type: AWS::ApiGateway::Resource
+    Type: AWS:Resource
   Resourceapibookproxy0:
     Properties:
       ParentId:
@@ -336,7 +345,7 @@ Resources:
       PathPart: '{proxy+}'
       RestApiId:
         Ref: RestAPI0
-    Type: AWS::ApiGateway::Resource
+    Type: AWS:Resource
   RestAPI0:
     Properties:
       ApiKeySourceType: HEADER
@@ -358,7 +367,7 @@ Resources:
           Resource:
           - '*'
         Version: 2012-10-17
-    Type: AWS::ApiGateway::RestApi
+    Type: AWS:RestApi
   SecurityGroupIngress0:
     Properties:
       CidrIp: 172.31.0.0/16
@@ -394,4 +403,4 @@ Resources:
         Ref: AWS::StackName
       TargetArns:
       - Ref: LoadBalancer
-    Type: AWS::ApiGateway::VpcLink
+    Type: AWS:VpcLink
