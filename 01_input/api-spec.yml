@@ -1,0 +1,31 @@
+info:
+  description: OpenAPI document for Detected REST APIs
+  title: Detected REST API specifications
+  version: 0.0.1
+openapi: 3.0.1
+paths:
+  /profile:
+    get:
+      description: Detected company profiles
+      operationId: totallyCustomGetOp
+      summary: This summary and description is in the template and not overwritten
+        on generation
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        passthroughBehavior: when_no_match
+        type: http
+        uri: /api/profile/todo/simpleTasks
+  /profile/{id}:
+    get:
+      x-amazon-apigateway-integration:
+        httpMethod: GET
+        passthroughBehavior: when_no_match
+        requestParameters:
+          integration.request.path.pathPart: method.request.path.{pathPart}
+        type: http
+        uri: /api/profile/{id}/{pathPart}
+servers:
+  - description: "Get profile REST API (Sandbox - uses develop data)"
+    url: "https://test.detected.app/api/profile/cid/view=?"
+  - description: "Get profile REST API (Production - uses production data)"
+    url: "https://test.detected.app/api/profile/cid/view=?"

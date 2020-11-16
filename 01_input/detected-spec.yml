@@ -1,0 +1,477 @@
+---
+openapi: 3.0.2
+info:
+  title: Detected
+  version: 1.0.0
+servers:
+- url: https://backend.detectedglobal.com/api
+  description: ""
+paths:
+  /login:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUser'
+        required: true
+      tags:
+      - Auth
+      responses:
+        "200":
+          $ref: '#/components/responses/LoginResponse'
+        "422":
+          $ref: '#/components/responses/ValidationErrorResponse'
+      summary: Login
+      description: Login An Existing User
+  /register:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUser'
+        required: true
+      tags:
+      - Auth
+      responses:
+        "422":
+          $ref: '#/components/responses/ValidationErrorResponse'
+        "201":
+          description: User registered
+      summary: Register
+      description: Register a new user
+  /forgot-password:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPassword'
+        required: true
+      tags:
+      - Auth
+      responses:
+        "422":
+          $ref: '#/components/responses/ValidationErrorResponse'
+        "200":
+          $ref: '#/components/responses/ForgotPasswordSuccessResponse'
+      summary: Forgot Password
+      description: 'Sends a forgot password link to users email if email is registered '
+  /reset-password:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPassword'
+        required: true
+      tags:
+      - Auth
+      responses:
+        "200":
+          $ref: '#/components/responses/ResetPasswordSuccessResponse'
+        "422":
+          $ref: '#/components/responses/ValidationErrorResponse'
+      summary: Reset Password
+      description: Reset password
+  /email/verification-notification:
+    post:
+      tags:
+      - Auth
+      responses:
+        "202":
+          description: Email Send Successfully
+      summary: Resend Verify Email
+      description: Resend verification email to registred user
+  /user/password:
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SavePassword'
+        required: true
+      tags:
+      - UserProfile
+      responses:
+        "422":
+          $ref: '#/components/responses/ValidationErrorResponse'
+        "200":
+          description: '""'
+      summary: Update Password
+      description: Update user's password
+  /user/profile-information:
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveUser'
+        required: true
+      tags:
+      - UserProfile
+      responses:
+        "422":
+          $ref: '#/components/responses/ValidationErrorResponse'
+        "200":
+          description: '""'
+      summary: Update Profile Information
+      description: Update profile information of a user
+  /companies:
+    get:
+      tags:
+      - Company
+      responses:
+        "200":
+          $ref: '#/components/responses/CompanyListResponse'
+      summary: Company List
+      description: List All Companies belongs to current user
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveCompany'
+        required: true
+      tags:
+      - Company
+      responses:
+        "201":
+          $ref: '#/components/responses/CompanyResponse'
+      summary: Add Company
+      description: Add New Company
+  /countries:
+    get:
+      tags:
+      - VerifyCompanyDetails
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+              examples:
+                Countries:
+                  value:
+                  - IN
+                  - NZ
+                  - GB
+                  - US
+          description: List Of Countries Code
+      summary: Country List
+      description: Get the list of countries
+  /companies/{jurisdictionCode}/{companyNumber}:
+    get:
+      tags:
+      - VerifyCompanyDetails
+      parameters:
+      - name: jurisdictionCode
+        description: The country code
+        schema:
+          type: string
+        in: path
+        required: true
+      - name: companyNumber
+        description: The company number to verify
+        schema:
+          type: string
+        in: path
+        required: true
+      responses:
+        "422":
+          $ref: '#/components/responses/ValidationErrorResponse'
+        "200":
+          description: Company verified
+      summary: Verify Company
+      description: Verify Company Details
+components:
+  schemas:
+    ValidationErrors:
+      description: ""
+      type: object
+      properties:
+        message:
+          description: ""
+          type: string
+        errors:
+          $ref: '#/components/schemas/ValidationError'
+          description: ""
+      example:
+        message: The given data was invalid.
+        errors:
+          field_name:
+          - The field_name field is required.
+    RegisterUser:
+      title: Root Type for RegisterUser
+      description: Datatype to register a user
+      required:
+      - email
+      - name
+      - password
+      - password_confirmation
+      - g_recaptcha_token
+      type: object
+      properties:
+        name:
+          description: User's full name
+          type: string
+        email:
+          description: User's email address
+          type: string
+        password:
+          description: User's password
+          type: string
+        password_confirmation:
+          description: Field to confirm the password
+          type: string
+        g_recaptcha_token:
+          description: Google recaptcha token
+          type: string
+      example:
+        name: Faizan Aalam
+        email: faizan@ranium.in
+        password: Password
+        password_confirmation: Password
+        g_recaptcha_token: poksjhcvdskciuawldbiuedgqdahwudjjd
+    LoginUser:
+      title: Root Type for LoginUser
+      description: Datatype to login a user
+      required:
+      - password
+      - email
+      type: object
+      properties:
+        email:
+          description: User's email address
+          type: string
+        password:
+          description: User's password
+          type: string
+      example:
+        email: faizan@ranium.in
+        password: Password
+    ValidationError:
+      title: Root Type for Validation
+      description: '    '
+      type: object
+      properties:
+        field_name:
+          type: array
+          items:
+            type: string
+      example:
+        field_name:
+        - The field_name field is required
+    LoginSuccess:
+      title: Root Type for LoginSuccess
+      description: ""
+      type: object
+      properties:
+        two_factor:
+          type: boolean
+      example:
+        two_factor: false
+    ForgotPassword:
+      title: Root Type for ForgotPassword
+      description: ""
+      required:
+      - email
+      type: object
+      properties:
+        email:
+          description: User's email address
+          type: string
+      example:
+        email: faizan@dev.in
+    ResetPassword:
+      title: Root Type for ResetPassword
+      description: ""
+      required:
+      - email
+      - token
+      - password
+      - password_confirmation
+      type: object
+      properties:
+        token:
+          description: Reset password token
+          type: string
+        email:
+          description: User's email
+          type: string
+        password:
+          description: New Password
+          type: string
+        password_confirmation:
+          description: New password confirmation
+          type: string
+      example:
+        token: kvlQZ3zEg1bhkvZGSbXcHk8OMB8dQrcyNo6491kA
+        email: faizan@dev.in
+    ResetPasswordSuccess:
+      title: Root Type for ForgotPasswordSuccess
+      description: ""
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Your password has been reset!
+    ForgotPasswordSuccess:
+      title: Root Type for ForgotPasswordSuccess
+      description: ""
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: We have emailed your password reset link!
+    SaveUser:
+      title: Root Type for SaveUser
+      description: ""
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          description: Name of a user to update
+          type: string
+      example:
+        name: Faizan
+    SavePassword:
+      title: Root Type for SavePassword
+      description: ""
+      required:
+      - current_password
+      - password
+      - password_confirmation
+      type: object
+      properties:
+        current_password:
+          description: Current password a user
+          type: string
+        password:
+          description: New password of a user
+          type: string
+        password_confirmation:
+          description: Confirmation of new password
+          type: string
+      example:
+        current_password: Password123
+        password: Password123
+        password_confirmation: Password123
+    Company:
+      title: Root Type for Company
+      description: ""
+      type: object
+      properties:
+        name:
+          description: Company Name
+          type: string
+        status:
+          description: Id verfication status
+          type: string
+        created_at:
+          description: Company created date
+          type: string
+        created_at_hnuman:
+          description: Human readable format for company created date
+          type: string
+        renewel_at:
+          description: Renewel date of company
+          type: string
+        renewel_at_human:
+          description: Human readable renewal date of company
+          type: string
+        company_url:
+          description: Company profile url
+          type: string
+      example:
+        name: TRUE ALTITUDE LTD
+        status: pending
+        created_at: 2020-10-14T10:31:26.000000Z
+        created_at_hnuman: 2020 October 14
+        renewel_at: 2020-11-14T10:31:26.000000Z
+        renewel_at_human: 2020 November 14
+        company_url: http://profile.detectedglobal.com/testing/profle/3bcece3f2ab2ff4c4c6fa22380c3e85f
+    CompanyList:
+      description: ""
+      type: object
+      properties:
+        data:
+          description: ""
+          type: array
+          items:
+            $ref: '#/components/schemas/Company'
+    SaveCompany:
+      title: Root Type for SaveCompany
+      description: ""
+      required:
+      - company_reference
+      - country_code
+      type: object
+      properties:
+        country_code:
+          description: country code
+          type: string
+        company_reference:
+          description: company reference number
+          type: string
+      example:
+        country_code: GB
+        company_reference: "00102498"
+    CompanySingle:
+      description: ""
+      required:
+      - data
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Company'
+          description: ""
+  responses:
+    ValidationErrorResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationErrors'
+      description: Laravel's Validation Error Response
+    LoginResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LoginSuccess'
+      description: ""
+    ResetPasswordSuccessResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResetPasswordSuccess'
+      description: ""
+    ForgotPasswordSuccessResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ForgotPasswordSuccess'
+      description: ""
+    CompanyListResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CompanyList'
+      description: ""
+    CompanyResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CompanySingle'
+      description: ""
+  securitySchemes:
+    Sanctum:
+      type: apiKey
+      description: Auth to be used by third party apps
+      name: Authorization
+      in: header

@@ -1,0 +1,30 @@
+openapi: "3.0.0"
+info:
+  version: "0.0.1"
+  title: "Detected REST APIs"
+  description: "Demonstrates how Detected REST API definitions are converted"
+servers:
+  - url: "https://test.detected.app/api/profile/cid/view=?"
+    description: "Get profile REST API"
+components:
+  securitySchemes:
+    # See https://demo.identityserver.io/ for configuration details.
+    identity_server_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: "https://2795dll430.execute-api.eu-west-2.amazonaws.com/dev"
+          scopes:
+            api: "api"
+security:
+  - identity_server_auth:
+    - api
+paths:
+  /profile:
+    get:
+      summary: "Get a company profile with given company id"
+      responses:
+        401:
+          description: "Unauthorized"
+        200:
+          description: "OK"
