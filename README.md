@@ -1,15 +1,23 @@
 ### Apigateway
 
-This repository contains the "source" code for the Api Gateway, VPC link, Custom
-Domain, network load balancer
+This repository contains the Terraform code for the Api Gateway, VPC link, Custom
+Domain, network load balancer.
 
-Custom Domain
+## Description
+Because we are using Virtual Hosts in Nginx based on the incoming url we will 
+have to make the API available on that URL. We also need to configure the 
+certificate. With Edge optimized cloudfront certificate is automatically included
+Then we also need to create records in route53 which point to the cloudfront 
+distribution. Api Gateway poins to a load balancer having internal domain name.
+Create Custom Domainname in the API Gateway Console.
 
-Apigateway
-
-VPCLink
-
-LoadBalancer
+    Custom Domain
+    
+    Apigateway
+    
+    VPCLink
+    
+    LoadBalancer
 
 
     RestAPI0, Type:RestApi
@@ -24,54 +32,57 @@ LoadBalancer
     
             Resourceapiauthorproxy0:, Type:Resource => Methodapiauthorproxy0, Type:Method
 
-Api Gateway poins to a load balancer having internal domain name.
-Create Custom Domainname in the API Gateway Console.
-Because we are using Virtual Hosts in Nginx based on the incoming url we will have to make the API available on that URL.
-at the same time configure the certificate when we select edge optimized cloudfront is automatically included - then we need to create records in route53 which point to this cloudfront distribution
 
 
-  Apigateway (service with name reference api-95d8427d)
-Deployment0	7ahgto	AWS:Deployment
-Listener elasticloadbalancing
-AWS::ElasticLoadBalancingV2::Listener
+## List of resources
 
-  LoadBalancer	arn:aws:elasticloadbalancing:eu-west-2:670824338614:loadbalancer/net/api-9-LoadB-RCE24E8FTK2A/e40102e887d0e5ae	
-  AWS::ElasticLoadBalancingV2::LoadBalancer
+    Apigateway (service with name reference api-95d8427d)
 
-  Resourceapi0	1a8od8	AWS:Resource
-  
-  Resourceapiauthor0	8dqylq	AWS:Resource
-  
-  Resourceapiauthorproxy0	rzp65v	AWS:Resource
-  
-  Resourceapibook0	yg6a1l	AWS:Resource
-  
-  Resourceapibookproxy0	tnvadk	AWS:Resource
-  
-  RestAPI0	2795dll430	AWS:RestApi
-  
-SecurityGroupIngress0	SecurityGroupIngress0	AWS::EC2::SecurityGroupIngress
+    Route53 records
 
-TargetGroup	arn:aws:elasticloadbalancing
+    VPCLink vawurb  AWS:VpcLink
 
-VPCLink	vawurb	AWS:VpcLink
+    Deployment0	7ahgto	AWS:Deployment
+
+    Listener elasticloadbalancing
+
+    AWS::ElasticLoadBalancingV2::Listener
+    
+    LoadBalancer	arn:aws:elasticloadbalancing
+    
+    Resourceapi0	1a8od8	AWS:Resource
+    
+    Resourceapiauthor0	8dqylq	AWS:Resource
+    
+    Resourceapiauthorproxy0	rzp65v	AWS:Resource
+    
+    Resourceapibook0	yg6a1l	AWS:Resource
+    
+    Resourceapibookproxy0	tnvadk	AWS:Resource
+    
+    RestAPI0	2795dll430	AWS:RestApi
+      
+    SecurityGroupIngress0	SecurityGroupIngress0	AWS::EC2::SecurityGroupIngress
+    
+    TargetGroup	arn:aws:elasticloadbalancing
+    
 
 ### outputs
 APIGWEndpointType	EDGE
-APIGatewayEndpoint0	https://2795dll430.execute-api.eu-west-2.amazonaws.com/dev	-	-
+APIGatewayEndpoint0	https://2795dll430.execute-api.eu-west-2.amazonaws.com/dev
 ClientARNS	arn:aws:iam::670824338614:user/apigw-user
-IngressRules	[{"path":"/api/book","backend":{"serviceName":"bookservice","servicePort":80}},{"path":"/api/author","backend":{"serviceName":"authorservice","servicePort":80}}]	-	-
+IngressRules	[{"path":"/api/book","backend":{"serviceName":"bookservice","servicePort":80}},{"path":"/api/author","backend":{"serviceName":"authorservice","servicePort":80}}]
 RequestTimeout	29000
 RestAPIID0	2795dll430
 
-
+### links
 https://github.com/clouddrove/terraform-aws-api-gateway
-Terraform code to build API Gateway, VPC link, network load balancer (private) and custom domainname (Route53 records) with cloudfront link.
-Also check the nginx documentation: https://www.nginx.com/blog/deploying-nginx-plus-as-an-api-gateway-part-1/
+Terraform code to build API Gateway, VPC link, network load balancer (private) 
+and custom domainname (Route53 records) with cloudfront link.
+Also check the nginx documentation: 
+https://www.nginx.com/blog/deploying-nginx-plus-as-an-api-gateway-part-1/
 
-
-
-## Cloudformation templates
+### Cloudformation templates for reference
 AWSTemplateFormatVersion: 2010-09-09
 Outputs:
   APIGWEndpointType:
