@@ -1,9 +1,66 @@
-### Apigateway
+Table of Contents
+=================
+
+  * [Apigateway](#apigateway)
+    * [Message flow](#message-flow)
+         * [Defining a REST API](#defining-a-rest-api)
+            * [First level - REST API properties](#first-level---rest-api-properties)
+            * [Second level - Authorization](#second-level---authorization)
+            * [Third level - Back-end integration](#third-level---back-end-integration)
+            * [4th level - Deployments](#4th-level---deployments)
+    * [Description](#description)
+    * [List of resources](#list-of-resources)
+       * [outputs](#outputs)
+       * [links](#links)
+       * [Cloudformation templates for reference](#cloudformation-templates-for-reference)
+
+## Todo
+
+TF code
+In practice
+Virtual Hosts in Nginx
+## Apigateway
 
 This repository contains the Terraform code for the Api Gateway, VPC link, Custom
 Domain, network load balancer.
 
-## Description
+## Message flow
+    End user
+        |
+    Cloudfront <- Custom domain
+        |
+    Api Gateway <-> AWS IAM
+        |
+    VPC link -> Cluster internal network load balancer
+                               |
+                              EKS
+                               |
+                              POD
+    
+    _DNS_ENDPOINT_ *https://test.detected.app* => _API_GATEWAY_ *https://2795dll430.execute-api.eu-west-2.amazonaws.com/dev* 
+    _NETWORK_LOAD_BALANCER_ **     <= API Gateway passes the message to NLB          <= IAM returns the answer
+    ace3bfcc9f7c740b1a234f59728a81c4-8762724ac7823621.elb.eu-west-2.amazonaws.com
+    api-9-LoadB-RCE24E8FTK2A-e40102e887d0e5ae.elb.eu-west-2.amazonaws.com #
+
+### Defining a REST API
+#### First level - REST API properties
+1. HTTP: GET/POST/DELETE
+2. FULLPATH: path,pathPart
+3. METHOD REQUEST/RESPONSE
+-path,headers,bodymodel,query
+#### Second level - Authorization
+4. AUTHORIZATION (IAM/LAMBDA)
+#### Third level - Back-end integration
+5. MAPPING TEMPLATE
+6. Content Handling, choose Passthrough
+7. INTEGRATION REQUEST/RESPONSE
+#### 4th level - Deployments
+---
+8. STAGES AND DEPLOYMENTS (includes environments)
+
+REST_API.drawio
+### Description
+
 Because we are using Virtual Hosts in Nginx based on the incoming url we will 
 have to make the API available on that URL. We also need to configure the 
 certificate. With Edge optimized cloudfront certificate is automatically included
@@ -44,9 +101,7 @@ Create Custom Domainname in the API Gateway Console.
 
     Deployment0	7ahgto	AWS:Deployment
 
-    Listener elasticloadbalancing
-
-    AWS::ElasticLoadBalancingV2::Listener
+    Listener elasticloadbalancing  AWS::ElasticLoadBalancingV2::Listener
     
     LoadBalancer	arn:aws:elasticloadbalancing
     
@@ -81,6 +136,11 @@ Terraform code to build API Gateway, VPC link, network load balancer (private)
 and custom domainname (Route53 records) with cloudfront link.
 Also check the nginx documentation: 
 https://www.nginx.com/blog/deploying-nginx-plus-as-an-api-gateway-part-1/
+
+
+
+
+
 
 ### Cloudformation templates for reference
 AWSTemplateFormatVersion: 2010-09-09
