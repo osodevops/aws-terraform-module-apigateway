@@ -15,14 +15,11 @@ Table of Contents
        * [Cloudformation templates for reference](#cloudformation-templates-for-reference)
 
 ## Todo
-
     *TFcode*
     1. targetgroup, user/IAM, SecurityGroupIngress0, custom domain, VPC link with LB connection
     2. multiple methods methodresponse/integrationresponse
 
     *Build and test*
-    
-    *Virtual Hosts in Nginx*
 
     *Open api Swagger*
 
@@ -31,7 +28,26 @@ Table of Contents
     *API keys/usage plans*
     1. the monitoring app handles the authentication
 
+### List of uncertainties:
+    use of custom domains, includes configuring Route53 records to point to cloudfront distributions
+    how to integrate Swagger/openapi specifications with terraform code creation                                
+    how flexible does the solution have to be in terms of adding new REST API's later on
+### Tests:
 
+    TEST                                                                 TOOL
+
+    1. integration between API Gateway and getProfile app                curl,postman,pytest
+    2. integration between API Gateway and Detected app                  curl,postman,pytest
+    3. integration between API Gateway and Monitoring app                pytest
+    4. infrastucture build test with terraform code                      terraform
+    5. infrastucture modify/delete test with terraform code              terraform
+    6. create, modify, delete individual REST API endpoints              pytest
+    7. create, modify, delete API keys and usage plans for users         pytest
+    8. authentication access allowed                                     pytest
+    9. authentication access denied                                      pytest
+    10. monitoring events                                                pytest
+    In addition we could do load, security and extra functional tests with     
+    pytest - it is up to the client how much they want us to test
 ### links
 
 Terraform code to build API Gateway, VPC link, network load balancer (private) 
