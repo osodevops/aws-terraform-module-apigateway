@@ -1,4 +1,4 @@
-resource "aws_api_gateway_rest_api" restapi0 {
+resource "aws_api_gateway_rest_api" masterrestapi {
     name                     = "testbb"
     api_key_source           = "HEADER"
     binary_media_types       = ["AWS::NoValue"]
@@ -45,9 +45,9 @@ resource "aws_api_gateway_method" "method0"{
 }
 
 resource "aws_api_gateway_method_settings" "s" {
-  rest_api_id = ${aws_api_gateway_rest_api.restapi0.id}
+  rest_api_id = ${aws_api_gateway_rest_api.masterrestapi.id}
   stage_name  = "dev"
-  method_path = "${aws_api_gateway_resource.restapi0.path_part}/${aws_api_gateway_method.defarestapi0.http_method}"
+  method_path = "${aws_api_gateway_resource.masterrestapi.path_part}/${aws_api_gateway_method.defamasterrestapi.http_method}"
 
   settings {
     metrics_enabled = true
@@ -56,8 +56,8 @@ resource "aws_api_gateway_method_settings" "s" {
 }
 
 resource "aws_api_gateway_integration" "integration0" {
-  rest_api_id = ${aws_api_gateway_rest_api.restapi0.id}
-  resource_id = ${aws_api_gateway_resource.restapi0.id}
-  http_method = ${aws_api_gateway_method.method0.http_method}
+  rest_api_id = ${aws_api_gateway_rest_api.masterrestapi.id}
+  resource_id = ${aws_api_gateway_resource.masterrestapi.id}
+  http_method = "ANY"
   type        = "MOCK"
 }
