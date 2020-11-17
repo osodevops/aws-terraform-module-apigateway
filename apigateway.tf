@@ -45,9 +45,9 @@ resource "aws_api_gateway_method" "method0"{
 }
 
 resource "aws_api_gateway_method_settings" "s" {
-  rest_api_id = ${aws_api_gateway_rest_api.restapi0.rest_api_id}
-  stage_name  = ${aws_api_gateway_stage.default.stage_name}
-  method_path = "${aws_api_gateway_resource.default.path_part}/${aws_api_gateway_method.default.http_method}"
+  rest_api_id = ${aws_api_gateway_rest_api.restapi0.id}
+  stage_name  = "dev"
+  method_path = "${aws_api_gateway_resource.restapi0.path_part}/${aws_api_gateway_method.defarestapi0.http_method}"
 
   settings {
     metrics_enabled = true
@@ -56,8 +56,8 @@ resource "aws_api_gateway_method_settings" "s" {
 }
 
 resource "aws_api_gateway_integration" "integration0" {
-  rest_api_id = ${aws_api_gateway_rest_api.restapi0.rest_api_id}
-  resource_id = ${aws_api_gateway_resource.restapi0.root_resource_id}
-  http_method = ${aws_api_gateway_method.default.http_method}
+  rest_api_id = ${aws_api_gateway_rest_api.restapi0.id}
+  resource_id = ${aws_api_gateway_resource.restapi0.id}
+  http_method = ${aws_api_gateway_method.method0.http_method}
   type        = "MOCK"
 }
