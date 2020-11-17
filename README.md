@@ -155,7 +155,7 @@ Create Custom Domainname in the API Gateway Console.
 ### outputs
 APIGWEndpointType	EDGE
 APIGatewayEndpoint0	https://2795dll430.execute-api.eu-west-2.amazonaws.com/dev
-ClientARNS	arn:aws:iam::670824338614:user/apigw-user
+ClientARNS	arn:aws:iam::838837044885:user/apigw-user
 IngressRules	[{"path":"/api/book","backend":{"serviceName":"bookservice","servicePort":80}},{"path":"/api/author","backend":{"serviceName":"authorservice","servicePort":80}}]
 RequestTimeout	29000
 RestAPIID0	2795dll430
@@ -177,7 +177,7 @@ RestAPIID0	2795dll430
             - .amazonaws.com/
             - dev
       ClientARNS:
-        Value: arn:aws:iam::670824338614:user/apigw-user
+        Value: arn:aws:iam::838837044885:user/apigw-user
       IngressRules:
         Value: '[{"path":"/api/book","backend":{"serviceName":"bookservice","servicePort":80}},{"path":"/    api/author","backend":{"serviceName":"authorservice","servicePort":80}}]'
       RequestTimeout:
@@ -465,7 +465,7 @@ RestAPIID0	2795dll430
               Effect: Allow
               Principal:
                 AWS:
-                - arn:aws:iam::670824338614:user/apigw-user
+                - arn:aws:iam::838837044885:user/apigw-user
               Resource:
               - '*'
             Version: 2012-10-17
