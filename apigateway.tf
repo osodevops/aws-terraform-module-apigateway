@@ -1,11 +1,11 @@
-resource "aws_api_gateway_rest_api" "restapi0" {
+resource "aws_api_gateway_rest_api" restapi0 {
+    name                     = "testbb"
+    binary_media_types       = var.binary_media_types
     api_key_source           = "HEADER"
     binary_media_types       = [
         "AWS::NoValue",
     ]
-    id                       = "Will be known after deployment - same as id"
     minimum_compression_size = -1
-    name                     = "Will be known after deployment - same as name"
     policy                   = jsonencode(
         {
             Statement = [
@@ -13,7 +13,7 @@ resource "aws_api_gateway_rest_api" "restapi0" {
                     Action    = "execute-api:Invoke"
                     Effect    = "Allow"
                     Principal = {
-                        AWS = "arn:aws:iam::670824338614:user/apigw-user"
+                        AWS = "arn:aws:iam::838837044885:user/*"
                     }
                     Resource  = "*"
                 },
@@ -22,10 +22,10 @@ resource "aws_api_gateway_rest_api" "restapi0" {
         }
     )
     tags = {
-      Application                    = ""
+      Application                    = "${var.application}"
       Environment                    = "${var.environment}"
-      CostCode                       = ""
-      SquadName                      = ""
+      CostCode                       = "${var.costcode}"
+      SquadName                      = "${var.squad}"
     }
 
     endpoint_configuration {
@@ -36,7 +36,7 @@ resource "aws_api_gateway_rest_api" "restapi0" {
     }
 }
 
-resource "aws_api_gateway_method" "methodapi0" {
+resource "aws_api_gateway_method" "method0"{
   rest_api_id          = aws_api_gateway_rest_api.restapi0.id
   resource_id          = aws_api_gateway_resource.restapi0.root_resource_id
   api_key_required     = false

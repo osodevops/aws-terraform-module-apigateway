@@ -1,14 +1,10 @@
 resource "aws_lb" "loadbalancer" {
-    arn                              = "Will be known after deployment"
-    arn_suffix                       = "Will be known after deployment - this is the part from above after ~~~670824338614:loadbalancer~~~"
-    dns_name                         = "Will be known after deployment: e.g. api-9-LoadB-RCE24E8FTK2A-e40102e887d0e5ae.elb.eu-west-2.amazonaws.com"
     enable_cross_zone_load_balancing = false
     enable_deletion_protection       = false
-    id                               = "Will be known after deployment: equals arn"
     internal                         = true
     ip_address_type                  = "ipv4"
     load_balancer_type               = "network"
-    name                             = "api-9-LoadB-RCE24E8FTK2A"
+    name                             = "api64-Loadbalancer"
     security_groups                  = []
     subnets                          = [
         "${data.aws_subnet_ids.private.ids[0]}",
@@ -16,13 +12,13 @@ resource "aws_lb" "loadbalancer" {
         "${data.aws_subnet_ids.private.ids[2]}"
     ]
     tags = {
-      Application                    = ""
+      Application                    = "${var.application}"
       Environment                    = "${var.environment}"
-      CostCode                       = ""
-      SquadName                      = ""
+      CostCode                       = "${var.costcode}"
+      SquadName                      = "${var.squadname}"
     }
     vpc_id                           = "${data.aws_vpcs.vpc.ids[0]}"
-    zone_id                          = ""
+    zone_id                          = "Z00336371X2ZSQKFAL697"
 
     access_logs {
         enabled = false
