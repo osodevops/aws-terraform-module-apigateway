@@ -5,9 +5,4 @@ resource "aws_api_gateway_rest_api" "profile_api" {
 //  policy = data.aws_iam_policy_document.api_gateway_resource_policy.json
 
   body = data.template_file.api_template.rendered
-
-
-//  endpoint_configuration {
-//    types = ["REGIONAL"]
-//  }
 }

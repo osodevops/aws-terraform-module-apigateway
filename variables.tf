@@ -1,7 +1,6 @@
-
-
-variable "namespace" {
-  description = "AWS resource namespace/prefix"
+variable "environment" {
+  description = "Environment descriptor."
+  type = string
 }
 
 variable "api_name" {
@@ -16,6 +15,10 @@ variable "api_name" {
 //  description = "Variables required in the OpenAPI template file"
 //  type        = map
 //}
+
+variable "hosted_zone_name" {
+  type = string
+}
 
 variable "api_throttling_rate_limit" {
   description = "API Gateway total requests across all API's within a REST endpoint"
@@ -54,8 +57,8 @@ variable "allowed_range" {
 }
 
 locals {
-  resource_name_prefix = "${var.namespace}"
   vpc_link_name = "test-link"
+  stage_name = "development"
 //  api_url              = "${aws_api_gateway_deployment.profile_api.invoke_url}${aws_api_gateway_stage.profile_stage.stage_name}"
-  api_name             = "${local.resource_name_prefix}-${var.api_name}"
+  api_name             = "${upper(var.environment)}-${upper(var.api_name)}"
 }
