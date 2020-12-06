@@ -7,9 +7,14 @@ variable "api_name" {
   description = "API Gateway endpoint name"
 }
 
-//variable "api_template" {
-//  description = "API Gateway OpenAPI 3 template file"
-//}
+variable "vpc_link_target_arn" {
+  type = string
+  description = "Private VPC Link to internal load balancer."
+}
+
+variable "api_template" {
+  description = "API Gateway OpenAPI 3 template file"
+}
 
 //variable "api_template_vars" {
 //  description = "Variables required in the OpenAPI template file"
@@ -57,8 +62,9 @@ variable "allowed_range" {
 }
 
 locals {
-  vpc_link_name = "test-link"
-  stage_name = "development"
+  create_api_link = var.vpc_link_target_arn == "" ? 0 : 1
+  vpc_link_name   = "${lower(var.environment)}-${lower(var.api_name)}-link"
+  stage_name      = "staging"
 //  api_url              = "${aws_api_gateway_deployment.profile_api.invoke_url}${aws_api_gateway_stage.profile_stage.stage_name}"
   api_name             = "${upper(var.environment)}-${upper(var.api_name)}"
 }
