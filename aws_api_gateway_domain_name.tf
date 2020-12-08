@@ -1,11 +1,11 @@
 resource "aws_api_gateway_domain_name" "example" {
   certificate_arn = aws_acm_certificate_validation.cert.certificate_arn
-  domain_name     = var.hosted_zone_name
+  domain_name     = var.api_fqdn
 }
 
 resource "aws_acm_certificate" "certificate" {
   provider          = aws.cloudfront
-  domain_name       = var.hosted_zone_name
+  domain_name       = var.api_fqdn
   validation_method = "DNS"
   lifecycle {
     create_before_destroy = true
